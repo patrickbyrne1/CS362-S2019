@@ -64,7 +64,7 @@ int main ()	{
 	
 	memcpy(&testState, &state, sizeof(struct gameState));
 	
-	// ----------- TEST 2: currentPlayer2 = 0 = +2 coins --------------;
+	// ----------- TEST 2: currentPlayer2 = 1 = +2 coins --------------;
 	embargoCard(currentPlayer2, &testState, handPos, choice1);
 	coins1 = state.coins;
 	coins2 = testState.coins;
@@ -73,7 +73,7 @@ int main ()	{
 	
 	memcpy(&testState, &state, sizeof(struct gameState));
 	
-	// ----------- TEST 3: currentPlayer3 = 0 = +2 coins --------------;
+	// ----------- TEST 3: currentPlayer3 = 2 = +2 coins --------------;
 	embargoCard(currentPlayer3, &testState, handPos, choice1);
 	coins1 = state.coins;
 	coins2 = testState.coins;
