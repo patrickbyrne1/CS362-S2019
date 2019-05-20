@@ -737,8 +737,7 @@ int embargoCard(int currentPlayer, struct gameState* state, int handPos, int cho
 {
     //+2 Coins
     state->coins = state->coins + 2;
-    state->coins = state->coins + 2;
-		    
+   
     //see if selected pile is in play
     if ( state->supplyCount[choice1] == -1 )
     {
