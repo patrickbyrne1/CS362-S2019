@@ -68,11 +68,14 @@ void testVillage() {
 	// determine effect on number of actions before and after (should get two actions added)
 	for(int i=0; i<2000; i++) {
 		
-		
+		// initialize game
 		initializeGame(numPlayers, kingdomCards, randomSeed, &testState);
 		
+		// randomize hand count
 		testState.handCount[currentPlayer] = rand()%(MAX_HAND + 1);
+		// randomize deck count
 		testState.deckCount[currentPlayer] = rand()%(MAX_DECK + 1);
+		// randomize discard count
 		testState.discardCount[currentPlayer] = rand()%(MAX_DECK + 1);
 		
 		numActionsBefore = testState.numActions;
