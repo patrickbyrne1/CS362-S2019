@@ -69,8 +69,10 @@ void testEmbargo() {
 		// randomize the number of player
 		numPlayers = rand() % (MAX_PLAYERS-1) + 2;
 		
+		// initialize game
 		initializeGame(numPlayers, kingdomCards, randomSeed, &testState);
 		
+		// randomize the supply count (1/100 chance of a -1 value)
 		testState.supplyCount[choice1] = (rand()%100)-1;
 		
 		// randomize handPos
