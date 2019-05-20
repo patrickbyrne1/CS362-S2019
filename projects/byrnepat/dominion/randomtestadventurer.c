@@ -7,55 +7,105 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define ASSERT_CRASH 0
+
+// function declarations
+int myAssert(int boolNum, char* message);
+void testAdventurer();
 
 
 // cited source:  Assertion test function format taken from here:
 // http://www.dillonbhuff.com/?p=439
 int myAssert(int boolNum, char* message) {
     if (boolNum == 0) {
-        printf ("adventureCard() FAIL: %s", message);
-        if (ASSERT_CRASH) {
-          exit(1);
-        }
+        printf ("adventureCard test failed: %s\n", message);
+        return 0;
     } else {
-		printf ("adventureCard() PASS: %s", message);
+		return 1;
 	}
 }
 
+// function to test the adventurerCard
 void testAdventurer() {
 
-	struct gameState state;
+	struct gameState testState;
 	
-	int currentPlayer1=0;
-	int currentPlayer2=1;
-	int currentPlayer3=2;
-	int currentPlayer4=3;
+	clock_t start, total;
 	
-	int numPlayers = 4;
+	
+	int currentPlayer = 0;
 	int randomSeed=999999;
 	
 	int kingdomCards[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
 	
-	int count = 0;
+	int numTestFails = 0;
+	int numTestPasses = 0;
+	int numPlayers;
 	
-	while(count < 2000)  {
+	int handPos=0; 
+	int choice1 = 0;
+	int choice2 = 0;
+	int choice3 = 0;
+	
+	int bonus = 0;
+	
+	printf("**********Testing adventureCard function**********\n");
+	printf("\n");
+	printf("Adventure card should add 2 treasure cards to player's hand.\n\n");
+	
+	// cited source: ideas for timing the function come from here:
+	// https://www.geeksforgeeks.org/how-to-measure-time-taken-by-a-program-in-c/
+	start = clock();
+	
+	// randomize number of players, whoseTurn, handCount
+	// determine effect on number of cards before and after (should get two treasure cards added to deck)
+	for(int i=0; i<2000; i++) {
+		
+		// randomize the number of players between 2 and 4
+		numPlayers = rand() % (MAX_PLAYERS-1) + 2;
+		
+		initializeGame(numPlayers, kingdomCards, randomSeed, &testState);
+		
+		// randomize the hand count
+		testState.handCount[currentPlayer] = rand()%(MAX_HAND + 1);
+		
+		// randomize whoseTurn
+		testState.whoseTurn = rand()%(numPlayers);
+	
+		int handCountTest1 = testState.handCount[currentPlayer];
+		
+		cardEffect(adventurer, choice1, choice2, choice3, &testState, handPos, &bonus);
+	
+		int handCountTest2 = testState.handCount[currentPlayer];
 
-		// initialize game state and make a testing copy
-		initializeGame(numPlayers, kingdomCards, randomSeed, &state);
+		
+		if(!myAssert((handCountTest1 + 2) == handCountTest2, "Incorrect number of cards in hand after Adventurer card played.\n")){
+			numTestFails++;
+			printf("Number of cards in hand before: %d\n", handCountTest1);
+			printf("Number of cards in hand after: %d\n", handCountTest2);
+		}
+		else {
+			numTestPasses++;
+		}
+	}	
 	
-		cardEffect(adventurer, 0, 0, 0, &G, 2, 0);
+	total = clock() - start;
+	double time_taken = ((double)total)/CLOCKS_PER_SEC; // in seconds 
 	
-	}
+	
+	printf("Test passed: %d\n", numTestPasses);
+	printf("Test failed: %d\n", numTestFails);
+	printf("Total time to do all tests: %f\n\n", time_taken); 
+	
 }
 
+    
+// main function to call testAdventurer
 int main() {
-    
-    
-    
-    
+	
    srand(time(NULL));
+   testAdventurer();   
+
    
    return 0;
 }
