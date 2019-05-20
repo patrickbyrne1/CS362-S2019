@@ -64,6 +64,7 @@ void testAdventurer() {
 		// randomize the number of players between 2 and 4
 		numPlayers = rand() % (MAX_PLAYERS-1) + 2;
 		
+		// initialize game
 		initializeGame(numPlayers, kingdomCards, randomSeed, &testState);
 		
 		// randomize the hand count
