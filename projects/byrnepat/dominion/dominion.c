@@ -687,7 +687,7 @@ int smithyCard(int currentPlayer, struct gameState *state, int handPos)
     //+3 Cards
     // bug added - i is decremented instead of incremented 
     // so it never reaches 3 and creates an infinite loop
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i--)
     {
       drawCard(currentPlayer, state);
     }
